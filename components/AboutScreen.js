@@ -6,7 +6,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <View style={{flex:2, justifyContent:"center", alignItems:"center",alignSelf:"center"}}>
-      <Text style={{fontSize:26, color:"lightblue"}}>
+      <Text style={{fontSize:26, color:"darkturquoise"}}>
               About our App
           </Text>
           <Text style={styles.header}>
@@ -14,11 +14,11 @@ export default function App() {
           </Text>
       </View>
       <View style={{flex:2,justifyContent:"center",alignItems:"center"}}>
-          <Text style={{fontSize:20, color:"lightblue"}}>Provide New Recipes</Text>
+          <Text style={{fontSize:20, color:"darkturquoise"}}>Provide New Recipes</Text>
           <Image style={styles.images} source = {{uri:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80'}}></Image>
-          <Text style={{fontSize:20, color:"lightblue"}}>Saved Your Own Recipes</Text>
+          <Text style={{fontSize:20, color:"darkturquoise"}}>Saved Your Own Recipes</Text>
           <Image style={styles.images} source = {{uri:'https://images.unsplash.com/photo-1542010589005-d1eacc3918f2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1792&q=80'}}></Image>
-          <Text style={{fontSize:20, color:"lightblue"}}>Share Your Recipes</Text>
+          <Text style={{fontSize:20, color:"darkturquoise"}}>Share Your Recipes</Text>
           <Image style={styles.images} source = {{uri:'https://images.unsplash.com/photo-1576867757603-05b134ebc379?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1770&q=80'}}></Image>
       </View>
     </View>

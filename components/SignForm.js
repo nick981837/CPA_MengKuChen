@@ -3,7 +3,7 @@ import React, { Component, useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Button, TextInput, CheckBox } from 'react-native';
 
 
-const SignForm = ({kind, forgotPasswordShow, bottomMessage1, bottomMessage2, confirmPasswordShow }) => {
+const SignForm = ({navigation,kind, forgotPasswordShow, bottomMessage1, bottomMessage2, confirmPasswordShow }) => {
 const [email,setEmail] = useState("")
 const [password, setPassword] = useState("")
 const [currentEmail,setCurrentEmail] = useState("")
@@ -46,7 +46,7 @@ const check = () => {
     else{
         if (checkSamePassword()) {
             storeUserInfo()
-            // navigation.navigate("About-Us")
+            navigation.navigate("About-Us")
             alert("Password and Confirm Password are same")
         }
         else{
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'stretch',
+    alignItems: 'center',
     justifyContent: 'center',
     alignItems:"center"
   },
