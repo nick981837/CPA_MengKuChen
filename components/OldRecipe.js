@@ -1,45 +1,64 @@
 
-import React from 'react';
-import { StyleSheet, Text, View, ImageBackground, SectionList, SafeAreaView } from 'react-native';
-
+import React, {useEffect,useState} from 'react';
+import { StyleSheet, Text, View, ImageBackground, Image } from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Icon } from 'react-native-elements'
 // const App = () => {...}
 export default function App() {
+  const [data,setData] = useState([])
+  useEffect(() => {
+    getData()
+  }, []);
+
+  useEffect(() => {
+    storeUserInfo()
+  }, [data]);
+
+  const getData = async () => {
+    try {
+        const currentData = await AsyncStorage.getItem('favoriteRecipe')
+        if (currentData.length) {
+          setData(JSON.parse(currentData))
+        }
+    }
+    catch(e) {
+        console.log(error in getData)
+    }
+  }
+  const deleteRecipe = (title) =>{
+    const deleteData = data.filter(item => item.title !== title)
+    setData(deleteData)
+  }
+  const storeUserInfo = async () => {
+    try{
+      await AsyncStorage.setItem("favoriteRecipe", JSON.stringify(data))
+      console.log("123")
+  } catch(e) {
+      console.log("error in storeData")
+  }
+}
+  const renderItem = ({item}) =>{
+    return (
+      <View style={{ padding:10, marginVertical:10, marginHorizontal:20, justifyContent:"center", alignItems:"center"}}>
+      <View style={{width:200, alignItems:"center"}}><Text style={{fontSize:15, fontWeight:"800"}}>{item.title}</Text></View>
+      <View style={{flexDirection:"row",alignItems:"center"}}><Icon  name='thumbs-up' type='font-awesome' color='blue'/><Text style={{fontWeight:"600"}}>{item.likes} LIKES</Text></View>
+      <Icon raised name='trash' type='font-awesome' color='green' onPress={() => deleteRecipe(item.title)} />
+      <View><Image source={{uri:item.image}} style={{width:200, height:150}}></Image></View>
+      </View>
+    )
+  }
   return (
     <View style={styles.container}>
-    <ImageBackground source={{uri: 'https://images.unsplash.com/photo-1481070555726-e2fe8357725c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80'}} style={styles.imageBackground}>
+    <ImageBackground source={{uri: 'https://images.unsplash.com/photo-1579751626657-72bc17010498?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1769&q=80'}} style={styles.imageBackground}>
     </ImageBackground>
       <View style={{flex:1, alignItems:'center', position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent:"center"}}>
-      <SafeAreaView style={styles.RecipesContainer}>
-      <Text style={{fontSize:32,
-                    backgroundColor:''}}>
-         Your Favorite Recipes
+      <View>
+      <Text style={styles.header}>
+         Favorite Recipes
       </Text>
-      <SectionList
-          sections={[
-            {title: '1.Chicken Chop Suey', data: ['Chop suey is among the most popular Chinese foods today. It’s a stir-fry vegetable dish that’s cooked with meats, then bounded by a flavorful sauce.']},
-            {title: '2.Chinese Noodle Soup',
-            data: ['This is the quickest Chinese recipe I’ve ever tried. There’s no need to follow a specific list of ingredients. Any noodles, any protein, and any vegetables will do! ']},
-            {title: '3.Cashew Chicken', data:['This easy-peasy recipe doesn’t require a wok. You’ll only need a large non-stick skillet and a couple of classic Chinese flavorings']},
-            {title: '4.Beef and Broccoli', data:['Beef and broccoli is one of my go-to dishes when looking for a balanced meal that’s a cinch to make.']},
-            {title: '5.Chinese Broccoli with Oyster Sauce', data:['Steamed Chinese broccoli drizzled with an oyster sauce that’s out-of-this-world flavorful. This dish is one of my personal favorites!']},
-            {title:'6.Dan Dan Noodles', data:['Dan dan noodles carry the flavor of Szechuan cuisine, which is very, very spicy. So for this noodle dish, expect the sauce to be fiery!']}
-          ]}
-          renderItem={({item}) => <Text style={styles.item}>{item}</Text>}
-          renderSectionHeader={({section}) => <Text style={styles.sectionHeader}>{section.title}</Text>}
-          keyExtractor={(item, index) => index}
-        />
-    </SafeAreaView>
-      {/* <View style={{flex:4}}>
-      <SectionList
-          sections={[
-            {title: 'D', data: ['Devin', 'Dan', 'Dominic']},
-            {title: 'J', data: ['Jackson', 'James', 'Jillian', 'Jimmy', 'Joel', 'John', 'Julie']},
-          ]}
-          renderItem={({item}) => <Text style={styles.item}>{item}</Text>}
-          renderSectionHeader={({section}) => <Text style={styles.sectionHeader}>{section.title}</Text>}
-          keyExtractor={(item, index) => index}
-        />
-      </View> */}
+      </View>
+      <FlatList style={{flexDirection:"column", backgroundColor:"#f1f2f2", marginBottom:20}} numColumns={4}  data = {data} renderItem={renderItem} keyExtractor={item=>item.title}></FlatList>
       </View>
     </View>
   );
@@ -60,14 +79,16 @@ const styles = StyleSheet.create({
   header: {
     flex:1,
     alignItems:'center',
-    fontSize:24,
+    fontSize:65,
     padding:25,
-    color:"while",
+    fontWeight:"800",
+    color:"white",
+    textShadowColor:'#585858',
+    textShadowOffset:{width: 5, height: 5},
   },
   imageBackground: {
     width: '100%',
-     height: '100%',
-    opacity: 0.8
+    height: '100%',
   },
   item:{
     fontSize:16
